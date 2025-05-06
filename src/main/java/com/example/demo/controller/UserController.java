@@ -1,15 +1,25 @@
 package com.example.demo.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.entity.User;
+import com.example.demo.serviceimpl.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 @RestController
 public class UserController {
+
+    @Autowired
+    UserServiceImpl userService;
+
+    @PostMapping("/user")
+    User createUSer(@RequestBody User user)
+    {
+       return  userService.createUser(user);
+    }
+
+
 
     @GetMapping("/name")
    public  String getName(@RequestParam(value = "id" , required = false) Integer id)
