@@ -14,10 +14,30 @@ public class UserController {
     UserServiceImpl userService;
 
     @PostMapping("/user")
-    User createUSer(@RequestBody User user)
+    User createUser(@RequestBody User user)
     {
        return  userService.createUser(user);
     }
+    @DeleteMapping("/delete")
+    User deleteUser(@RequestParam("id") Integer id)
+    {
+       return  userService.deleteUser(id);
+    }
+    @PutMapping("/update")
+    public User updateUser(@RequestBody User user)
+    {
+        return userService.UpdateUSer(user);
+    }
+    @GetMapping("/user{id}")
+    public List<User> getUser(@PathVariable("id") Integer id)
+    {
+        if (id!=null)
+        return List.of(userService.getUser(id));
+        else
+            return userService.getAll();
+    }
+
+
 
 
 
