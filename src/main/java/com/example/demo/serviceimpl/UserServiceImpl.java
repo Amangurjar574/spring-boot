@@ -1,6 +1,7 @@
 package com.example.demo.serviceimpl;
 
 import com.example.demo.entity.User;
+import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +19,14 @@ public class UserServiceImpl  implements UserService {
     }
     @Override
     public User deleteUser(Integer id) {
-        return hashSet.remove(id);
+        User user=hashSet.remove(id);
+        if(user!=null)return user;
+        throw new UserNotFoundException("data not found id:"+id);
     }
     @Override
     public User UpdateUSer(User user) {
         User user1=hashSet.get(user.getId());
+        if(user1==null)throw new UserNotFoundException("data not found id:"+user.getId());
         user1.setName(user.getName());
         user1.setPassword(user.getPassword());
         hashSet.put(user.getId(),user1);
@@ -31,7 +35,9 @@ public class UserServiceImpl  implements UserService {
 
     @Override
     public User getUser(Integer id) {
-        return hashSet.get(id);
+        User user=hashSet.get(id);
+        if(user!=null)return user;
+        throw new UserNotFoundException("data not found id:"+id);
     }
 
     @Override
