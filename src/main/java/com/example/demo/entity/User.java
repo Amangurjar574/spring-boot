@@ -1,9 +1,20 @@
 package com.example.demo.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class User {
+    @Id
    private Integer id;
+    @Column
     private String name;
+    @Column
     private String password;
+
+    public User() {
+    }
 
     public User(Integer id, String name, String password) {
         this.id = id;
