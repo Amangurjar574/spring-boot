@@ -5,22 +5,44 @@ import com.example.demo.serviceimpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.support.CustomSQLErrorCodesTranslation;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.*;
 
-@RestController
+@Controller
 public class UserController {
 
     @Autowired
     UserServiceImpl userService;
 
     @PostMapping("/create")
-    public ResponseEntity<User> createUser(@RequestBody User user) throws SQLException
+    public String createUser(@RequestParam Integer id,
+                                           @RequestParam String name,
+                                           @RequestParam  String password) throws SQLException
     {
-       return  new ResponseEntity<>(userService.createUser(user),HttpStatus.CREATED);
+        User user=new User(id,name,password);
+        User user1=userService.createUser(user);
+        if(user1!=null) {
+            return "redirect:/login";
+        }
+        return   "redirect:/login?error";
     }
+
+    @PostMapping("/loginapi")
+    public String loginUser(@RequestParam String name,
+                            @RequestParam String password)
+    {
+        String user  =userService.login(new User(name,password));
+        if (user != null) {
+            return "redirect:/welcome";
+        } else {
+            return "redirect:/login?error";
+        }
+    }
+
     @DeleteMapping("/delete")
     public ResponseEntity<User> deleteUser(@RequestParam("id") Integer id)
     {

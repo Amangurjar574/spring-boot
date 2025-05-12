@@ -13,4 +13,5 @@ public interface UserService {
     User UpdateUSer(User user);
     User getUser(Integer id);
     List<User> getAll();
+    String login(User suer);
 }

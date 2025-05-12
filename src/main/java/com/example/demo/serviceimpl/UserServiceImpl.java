@@ -57,4 +57,12 @@ public class UserServiceImpl  implements UserService {
         return userRepository.findAll();
     }
 
+    @Override
+    public String login(User user) {
+        User user1 = userRepository.findByNameAndPassword(user.getName(), user.getPassword());
+            if(user1!=null)return "Welcome";
+            throw new UserNotFoundException("please  insert correct name and password.. ");
+
+    }
+
 }
